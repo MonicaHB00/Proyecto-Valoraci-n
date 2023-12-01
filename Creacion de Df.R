@@ -1,0 +1,61 @@
+install.packages("dplyr")
+library(dplyr)
+
+
+
+#Se exportan los datos
+library(readxl)
+Precios_Futuros <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoraci?n de instrumentos/Precios Futuros.xlsx")
+Gold_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoraci?n de instrumentos/commodities-workbook.xlsx", sheet="Gold", 
+                           range = "A11:B678")
+Silver_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoraci?n de instrumentos/commodities-workbook.xlsx", sheet="Silver", 
+                        range = "A11:B678")
+Copper_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoraci?n de instrumentos/commodities-workbook.xlsx", sheet="Copper", 
+                        range = "A11:B678")
+
+
+#Fecha inicial para los datos
+specific_date <- as.Date("2020-12-31")
+#Se filtran los datos de los futuros
+new_data <- Precios_Futuros[c('commodity', 'date', 'close')]
+new_data$date <- as.Date(new_data$date)
+new_data <- new_data[new_data$date >= specific_date,]
+new_data <- new_data %>% rename('Date' = 'date','Future' = 'close')
+#Se pasa el tipo de fecha de POSIXct a Date
+Gold_Spot$Date <- as.Date(Gold_Spot$Date)
+Silver_Spot$Date <- as.Date(Silver_Spot$Date)
+Copper_Spot$Date <- as.Date(Copper_Spot$Date)
+#Se filtra por fecha los precios spot a partir del "2022-12-31"
+Gold_Spot <- Gold_Spot[Gold_Spot$Date >= specific_date,]
+Silver_Spot <- Silver_Spot[Silver_Spot$Date >= specific_date,]
+Copper_Spot <- Copper_Spot[Copper_Spot$Date >= specific_date,]
+#Se separan los precios futuros por activo
+gold_Future <- new_data[new_data$commodity == "Gold", ]
+silver_Future <- new_data[new_data$commodity == "Silver", ]
+copper_Future <- new_data[new_data$commodity == "Copper", ]
+
+# Extraer el a?o y mes de la fecha
+gold_Future_my <- gold_Future %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+silver_Future_my <- silver_Future %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+copper_Future_my <- copper_Future %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+Gold_Spot_my <- Gold_Spot %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+Silver_Spot_my <- Silver_Spot %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+Copper_Spot_my <- Copper_Spot %>%
+  mutate(year_month = format(Date, "%Y-%m"))
+# Filtrar la primera aparici?n de cada mes
+gold_Future_per_month <- gold_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+silver_Future_per_month <- silver_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+copper_Future_per_month <- copper_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+Gold_Spot_per_month <- Gold_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+Silver_Spot_per_month <- Silver_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+Copper_Spot_per_month <- Copper_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+#Se unen precios spot y futuros
+gold <- merge(gold_Future_per_month, Gold_Spot_per_month, by = "Date", all = TRUE)
+silver <- merge(silver_Future_per_month, Silver_Spot_per_month, by = "Date", all = TRUE)
+copper <- merge(copper_Future_per_month, Copper_Spot_per_month, by = "Date", all = TRUE)
+
