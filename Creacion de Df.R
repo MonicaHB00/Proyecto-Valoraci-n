@@ -5,7 +5,7 @@ library(lubridate)
 
 #Se exportan los datos
 library(readxl)
-Precios_Futuros <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/Precios Futuros.xlsx")
+Precios_Futuros <- read_excel("Precios Futuros.xlsx")
 Gold_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/commodities-workbook.xlsx", sheet="Gold", 
                            range = "A11:B678")
 Silver_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/commodities-workbook.xlsx", sheet="Silver", 
