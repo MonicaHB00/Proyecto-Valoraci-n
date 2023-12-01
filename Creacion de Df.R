@@ -1,10 +1,17 @@
 install.packages("dplyr")
 library(dplyr)
 library(lubridate)
+library(readxl)
 
+
+getwd()
+# Para encontrar donde esta guardado este archivo
+script_directory <- dirname(rstudioapi::getSourceEditorContext()$path)
+script_directory
+# Se toma esta dirección como el nuevo working directory
+setwd(script_directory)
 
 #Se exportan los datos
-library(readxl)
 Precios_Futuros <- read_excel("Precios Futuros.xlsx")
 Gold_Spot <- read_excel("commodities-workbook.xlsx", sheet="Gold", 
                            range = "A11:B678")
