@@ -20,11 +20,11 @@ Silver_Spot <- read_excel("commodities-workbook.xlsx", sheet="Silver",
 Copper_Spot <- read_excel("commodities-workbook.xlsx", sheet="Copper", 
                         range = "A11:B537")
 Platinum_Spot <- read_excel("precios spot platino.xlsx", range = "A1:H181")
-
+risk_free <- read_excel("tasa libre de riesgo.xlsx")
 
 
 #Fecha inicial para los datos
-specific_date <- as.Date("2020-12-01")
+specific_date <- as.Date("2022-12-01")
 specific_date_end <- as.Date("2023-10-31")
 #Se filtra la tabla de precios spot para platino
 Platinum_Spot <- Platinum_Spot[, !(colSums(is.na(Platinum_Spot)) > 0)]
