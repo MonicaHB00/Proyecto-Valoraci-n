@@ -6,13 +6,13 @@ library(lubridate)
 #Se exportan los datos
 library(readxl)
 Precios_Futuros <- read_excel("Precios Futuros.xlsx")
-Gold_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/commodities-workbook.xlsx", sheet="Gold", 
+Gold_Spot <- read_excel("commodities-workbook.xlsx", sheet="Gold", 
                            range = "A11:B678")
-Silver_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/commodities-workbook.xlsx", sheet="Silver", 
+Silver_Spot <- read_excel("commodities-workbook.xlsx", sheet="Silver", 
                         range = "A11:B681")
-Copper_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/commodities-workbook.xlsx", sheet="Copper", 
+Copper_Spot <- read_excel("commodities-workbook.xlsx", sheet="Copper", 
                         range = "A11:B537")
-Platinum_Spot <- read_excel("C:/Users/Usuario/Desktop/UCR/Valoración de instrumentos/precios spot platino.xlsx", range = "A1:H181")
+Platinum_Spot <- read_excel("precios spot platino.xlsx", range = "A1:H181")
 
 
 
