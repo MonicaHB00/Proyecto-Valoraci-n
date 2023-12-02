@@ -77,9 +77,9 @@ ST_copper_futuro <-as.numeric(ST_copper_futuro)
 ST_copper_spot<-as.numeric(copper$Spot,frecuency=155)
 
 ms_copper_futuro <- Arima(ST_copper_futuro, order = c(1, 1, 1),
-                          seasonal = list(order = c(1, 1, 1), period = 24))
+                          seasonal = list(order = c(1, 1, 1), period = 6))
 ms_copper_spot <- Arima(ST_copper_spot, order = c(1, 1, 1),
-                        seasonal = list(order = c(1, 1, 1), period = 24))
+                        seasonal = list(order = c(1, 1, 1), period = 5))
 
 
 proyecciones_futuro_copper<- forecast(ms_copper_futuro, h = meses_proyectar)
@@ -94,7 +94,3 @@ print(proyecciones_spot_copper)
 #lines(ST_gold_futuro, col = "black")
 #lines(ST_gold_spot, col = "red")
 
-copper_proyecciones<-data_frame(Date=fechas_formato,
-                                Future=proyecciones_futuro_copper$mean,
-                                Spot=proyecciones_spot_copper$mean )
-copper_completo<-bind_rows(gold,copper_proyecciones)
