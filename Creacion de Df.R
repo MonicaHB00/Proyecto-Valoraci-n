@@ -73,8 +73,9 @@ platinum_Future_per_month <- platinum_Future_my %>% group_by(year_month) %>% sli
 Gold_Spot_per_month <- Gold_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
 Silver_Spot_per_month <- Silver_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
 Copper_Spot_per_month <- Copper_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
+Platinum_Spot_per_month <- Platinum_Spot_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
 #Se unen precios spot y futuros
 gold <- merge(gold_Future_per_month, Gold_Spot_per_month, by = "Date", all = TRUE)
 silver <- merge(silver_Future_per_month, Silver_Spot_per_month, by = "Date", all = TRUE)
 copper <- merge(copper_Future_per_month, Copper_Spot_per_month, by = "Date", all = TRUE)
-platinum <- merge(platinum_Future_per_month, Copper_Spot_per_month, by = "Date", all = TRUE)
+platinum <- merge(platinum_Future_per_month, Platinum_Spot_per_month, by = "Date", all = TRUE)
