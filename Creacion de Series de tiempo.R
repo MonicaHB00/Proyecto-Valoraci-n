@@ -71,30 +71,30 @@ silver_proyecciones<-data_frame(Date=fechas_formato,
 silver_completo<-bind_rows(gold,silver_proyecciones)
 
 ##########
-ST_cooper_futuro <- ts(cooper$Future, frequency = 155)
-ST_cooper_futuro <-as.numeric(ST_cooper_futuro)
+ST_copper_futuro <- ts(copper$Future, frequency = 155)
+ST_copper_futuro <-as.numeric(ST_copper_futuro)
 
-ST_cooper_spot<-as.numeric(cooper$Spot,frecuency=155)
+ST_copper_spot<-as.numeric(copper$Spot,frecuency=155)
 
-ms_cooper_futuro <- Arima(ST_cooper_futuro, order = c(1, 1, 1),
+ms_copper_futuro <- Arima(ST_copper_futuro, order = c(1, 1, 1),
                           seasonal = list(order = c(1, 1, 1), period = 24))
-ms_cooper_spot <- Arima(ST_cooper_spot, order = c(1, 1, 1),
+ms_copper_spot <- Arima(ST_copper_spot, order = c(1, 1, 1),
                         seasonal = list(order = c(1, 1, 1), period = 24))
 
 
-proyecciones_futuro_cooper<- forecast(ms_cooper_futuro, h = meses_proyectar)
-proyecciones_spot_cooper<- forecast(ms_cooper_spot, h = meses_proyectar)
+proyecciones_futuro_copper<- forecast(ms_copper_futuro, h = meses_proyectar)
+proyecciones_spot_copper<- forecast(ms_copper_spot, h = meses_proyectar)
 
 
-print(proyecciones_futuro_cooper)
-print(proyecciones_spot_cooper)
+print(proyecciones_futuro_copper)
+print(proyecciones_spot_copper)
 
 #par(mar = c(5, 4, 4, 2) + 0.1)
 #plot(proyecciones_futuro_gold, main = "Proyección de Precios Forward con SARIMA", xlab = "Fecha", ylab = "Precio Forward")
 #lines(ST_gold_futuro, col = "black")
 #lines(ST_gold_spot, col = "red")
 
-cooper_proyecciones<-data_frame(Date=fechas_formato,
-                                Future=proyecciones_futuro_cooper$mean,
-                                Spot=proyecciones_spot_cooper$mean )
-cooper_completo<-bind_rows(gold,cooper_proyecciones)
+copper_proyecciones<-data_frame(Date=fechas_formato,
+                                Future=proyecciones_futuro_copper$mean,
+                                Spot=proyecciones_spot_copper$mean )
+copper_completo<-bind_rows(gold,copper_proyecciones)
