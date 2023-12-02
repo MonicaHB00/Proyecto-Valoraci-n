@@ -78,3 +78,10 @@ gold <- merge(gold_Future_per_month, Gold_Spot_per_month, by = "Date", all = TRU
 silver <- merge(silver_Future_per_month, Silver_Spot_per_month, by = "Date", all = TRUE)
 copper <- merge(copper_Future_per_month, Copper_Spot_per_month, by = "Date", all = TRUE)
 platinum <- merge(platinum_Future_per_month, Copper_Spot_per_month, by = "Date", all = TRUE)
+#Se ponen las cosas como numeritos
+gold$Future<-as.numeric(gold$Future)
+silver$Future<-as.numeric(silver$Future)
+copper$Future<-as.numeric(copper$Future)
+platinum$Future<-as.numeric(platinum$Future)
+
+
