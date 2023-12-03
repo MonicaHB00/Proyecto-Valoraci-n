@@ -221,7 +221,7 @@ ggplot(silver, aes(x = Date)) +
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
-  scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
+  scale_y_continuous(breaks = seq(0, max(silver$Future), by = 5)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
@@ -242,7 +242,7 @@ ggplot(copper, aes(x = Date)) +
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2, "Precio Futuro" = "#D2691E")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
-  scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
+  scale_y_continuous(breaks = seq(0, max(copper$Future), by = 10)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
@@ -263,7 +263,7 @@ ggplot(platinum, aes(x = Date)) +
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "lightgrey")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
-  scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
+  scale_y_continuous(breaks = seq(0, max(platinum$Future), by = 10)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
