@@ -305,8 +305,8 @@ proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
 
 #creacion del nuevo df
 fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
-fechas_formato <- format(fechas, "%Y-%m-%d")
-
+fechas_formato <- as.Date(format(fechas, "%Y-%m-%d"))
+                                
 gold_proyecciones<-data_frame(Date=fechas_formato,
                               Future=proyecciones_futuro_gold$mean,
                               Spot=proyecciones_spot_gold$mean )
