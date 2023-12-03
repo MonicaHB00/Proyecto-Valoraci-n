@@ -224,7 +224,7 @@ proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
 
 #creacion del nuevo df
 fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
-fechas_formato <- format(fechas, "%Y-%m")
+fechas_formato <- format(fechas, "%Y-%m-%d")
 
 gold_proyecciones<-data_frame(Date=fechas_formato,
                               Future=proyecciones_futuro_gold$mean,
@@ -251,4 +251,84 @@ ggplot(data = gold_completo) +
   labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos años", 
        caption = "Fuente: Elaboracion propia con datos de ")
 
+
+##########################Copper
+ST_copper_futuro <- ts(copper$Future, frequency = 12)
+ms_copper_futuro <- auto.arima(ST_copper_futuro)
+
+ST_copper_spot<-ts(copper$Spot,frequency=12)
+
+ms_copper_spot<-arima(ST_copper_spot,c(0,0,6))
+ms_copper_spot <- arima(ST_copper_spot,c(1,0,10))
+
+
+
+proyecciones_futuro_copper<- forecast(ms_copper_futuro, h = meses_proyectar)
+proyecciones_spot_copper<- forecast(ms_copper_spot, h = meses_proyectar)
+
+plot(proyecciones_futuro_copper)
+plot(proyecciones_spot_copper)
+
+copper_proyecciones<-data_frame(Date=as.Date(fechas_formato),
+                                Future=proyecciones_futuro_copper$mean,
+                                Spot=proyecciones_spot_copper$mean )
+copper_completo<-bind_rows(copper,copper_proyecciones)
+
+copper_completo$Date <- as.Date(paste0(copper_completo$Date, "-01"), format = "%Y-%m-%d")
+copper_completo$periodoF <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
+copper_completo$periodoS <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuésS", "AntesS")
+#Grafico del futuro 
+ggplot(data = copper_completo) + 
+  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
+ggplot(data = copper_completo) + 
+  #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
+
+###########################SILVER
+##Creo que ideal 10,0,9
+ST_silver_futuro <- ts(silver$Future, frequency = 12)
+ST_silver_futuro <-as.numeric(ST_silver_futuro)
+#Ideal 10,0,9
+ST_silver_spot<-as.numeric(silver$Spot,frecuency=12)
+
+ms_silver_futuro<-arima(ST_silver_futuro,order=c(10,0,9))
+ms_silver_spot <- arima(ST_silver_spot,order=c(10,0,9))
+
+
+proyecciones_futuro_silver<- forecast(ms_silver_futuro, h = meses_proyectar)
+proyecciones_spot_silver<- forecast(ms_silver_spot, h = meses_proyectar)
+
+
+plot(proyecciones_futuro_silver)
+plot(proyecciones_spot_silver)
+
+
+#print(silver$Date)
+#print(fechas_formato)
+
+silver_proyecciones<-data_frame(Date=as.Date(fechas_formato),
+                                Future=proyecciones_futuro_silver$mean,
+                                Spot=proyecciones_spot_silver$mean )
+silver_completo<-bind_rows(silver,silver_proyecciones)
+
+###GRafico de Silver
+silver_completo$Date <- as.Date(paste0(silver_completo$Date, "-01"), format = "%Y-%m-%d")
+silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
+silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésS", "AntesS")
+#grafico de futuro
+ggplot(data = silver_completo) + 
+  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
+#Grafico del Spot
+ggplot(data = silver_completo) + 
+  #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
 

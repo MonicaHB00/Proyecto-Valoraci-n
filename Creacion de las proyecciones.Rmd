@@ -1,0 +1,188 @@
+---
+title: "Proyecto Valoración"
+author: "Monica"
+date: "2023-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+     
+     
+     
+```{r}
+library(forecast)
+###Para silver futuro  ST_silver_futuro
+adf_test <- adf.test(ST_copper_futuro)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_copper_futuro, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+
+###Para silver futuro  ST_silver_spot
+adf_test <- adf.test(ST_copper_spot)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_copper_spot, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+```
+     
+     
+     
+```{r}
+ST_copper_futuro <- ts(copper$Future, frequency = 12)
+ms_copper_futuro <- auto.arima(ST_copper_futuro)
+
+ST_copper_spot<-ts(copper$Spot,frequency=12)
+
+ms_copper_spot<-arima(ST_copper_spot,c(0,0,6))
+ms_copper_spot <- arima(ST_copper_spot,c(1,0,10))
+
+
+
+proyecciones_futuro_copper<- forecast(ms_copper_futuro, h = meses_proyectar)
+proyecciones_spot_copper<- forecast(ms_copper_spot, h = meses_proyectar)
+
+plot(proyecciones_futuro_copper)
+plot(proyecciones_spot_copper)
+
+copper_proyecciones<-data_frame(Date=as.Date(fechas_formato),
+                                Future=proyecciones_futuro_copper$mean,
+                                Spot=proyecciones_spot_copper$mean )
+copper_completo<-bind_rows(copper,copper_proyecciones)
+
+
+```
+  
+```{r}
+copper_completo$Date <- as.Date(paste0(copper_completo$Date, "-01"), format = "%Y-%m-%d")
+copper_completo$periodoF <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
+copper_completo$periodoS <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuésS", "AntesS")
+
+ggplot(data = copper_completo) + 
+  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
+```
+     
+```{r}
+library(forecast)
+###Para silver futuro  ST_silver_futuro
+adf_test <- adf.test(ST_silver_futuro)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_silver_futuro, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+
+###Para silver futuro  ST_silver_spot
+adf_test <- adf.test(ST_silver_spot)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_silver_spot, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+
+
+
+
+```
+     
+```{r}
+##Creo que ideal 10,0,9
+ST_silver_futuro <- ts(silver$Future, frequency = 12)
+ST_silver_futuro <-as.numeric(ST_silver_futuro)
+#Ideal 10,0,9
+ST_silver_spot<-as.numeric(silver$Spot,frecuency=12)
+
+ms_silver_futuro<-arima(ST_silver_futuro,order=c(10,0,9))
+ms_silver_spot <- arima(ST_silver_spot,order=c(10,0,9))
+
+
+proyecciones_futuro_silver<- forecast(ms_silver_futuro, h = meses_proyectar)
+proyecciones_spot_silver<- forecast(ms_silver_spot, h = meses_proyectar)
+
+
+plot(proyecciones_futuro_silver)
+plot(proyecciones_spot_silver)
+
+
+#print(silver$Date)
+#print(fechas_formato)
+
+silver_proyecciones<-data_frame(Date=as.Date(fechas_formato),
+                              Future=proyecciones_futuro_silver$mean,
+                              Spot=proyecciones_spot_silver$mean )
+silver_completo<-bind_rows(silver,silver_proyecciones)
+```
+
+```{r}
+silver_completo$Date <- as.Date(paste0(silver_completo$Date, "-01"), format = "%Y-%m-%d")
+silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
+silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésS", "AntesS")
+
+ggplot(data = silver_completo) + 
+  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
+  #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
+```
+     
+     
