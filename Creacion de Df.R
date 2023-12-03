@@ -192,6 +192,26 @@ ggplot(gold, aes(x = Date)) +
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del título
   guides(color = guide_legend(title = NULL))
 
+#Gráfico Oro
+ggplot(gold, aes(x = Date)) +
+  geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
+  geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
+  labs(title = "Precio de Futuros y Spot del oro",
+       x = "Fecha",
+       y = "Precio") +
+  scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "goldenrod3")) +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
+  scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
+  theme(panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
+        legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
+        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
+        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las lÃ­neas de los ejes a blanco
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃ­tulo
+  guides(color = guide_legend(title = NULL))
+
 #Gráfico Plata
 ggplot(silver, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
@@ -199,7 +219,7 @@ ggplot(silver, aes(x = Date)) +
   labs(title = "Precio de Futuros y Spot de la plata",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Spot" = "#00FF7F", "Precio Futuro" = "#8B8989")) +
+  scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(panel.background = element_rect(fill = "white"),
@@ -220,7 +240,7 @@ ggplot(copper, aes(x = Date)) +
   labs(title = "Precio de Futuros y Spot del cobre",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Spot" = "#00FF7F", "Precio Futuro" = "#D2691E")) +
+  scale_color_manual(values = c("Precio Spot" = "cadetblue2, "Precio Futuro" = "#D2691E")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(panel.background = element_rect(fill = "white"),
@@ -241,7 +261,7 @@ ggplot(platinum, aes(x = Date)) +
   labs(title = "Precio de Futuros y Spot del platino",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Spot" = "#00FF7F", "Precio Futuro" = "lightgrey")) +
+  scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "lightgrey")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(panel.background = element_rect(fill = "white"),
