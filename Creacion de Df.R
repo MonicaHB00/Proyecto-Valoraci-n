@@ -240,7 +240,7 @@ ggplot(copper, aes(x = Date)) +
   labs(title = "Precio de Futuros y Spot del cobre",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Spot" = "cadetblue2, "Precio Futuro" = "#D2691E")) +
+  scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "#D2691E")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(copper$Future), by = 10)) +
   theme(panel.background = element_rect(fill = "white"),
