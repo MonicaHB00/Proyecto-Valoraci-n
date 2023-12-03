@@ -193,3 +193,62 @@ ggplot(gold, aes(x = Date)) +
   guides(color = guide_legend(title = NULL))
 
 
+######
+library(forecast)
+library(ggplot2)
+library(tseries)
+library(lubridate)
+
+meses_proyectar<-24
+
+#Sereies de Tiempo futuro
+ST_gold_futuro <- ts(gold$Future, frequency = 12)
+ST_gold_futuro <-as.numeric(ST_gold_futuro)
+
+#series de tiempo spot
+ST_gold_spot<-as.numeric(gold$Spot,frecuency=12)
+
+#Arimas
+ms_gold_futuro <- Arima(ST_gold_futuro, order = c(1, 1, 1),
+                        seasonal = list(order = c(1, 1, 1), period = 12))
+ms_gold_spot <- Arima(ST_gold_spot, order = c(1, 1, 1),
+                      seasonal = list(order = c(1, 1, 1), period = 12))
+
+#Proyyeciones
+proyecciones_futuro_gold<- forecast(ms_gold_futuro, h = meses_proyectar)
+proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
+
+
+#print(proyecciones_futuro_gold)
+#print(proyecciones_spot_gold)
+
+#creacion del nuevo df
+fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
+fechas_formato <- format(fechas, "%Y-%m")
+
+gold_proyecciones<-data_frame(Date=fechas_formato,
+                              Future=proyecciones_futuro_gold$mean,
+                              Spot=proyecciones_spot_gold$mean )
+gold_completo<-bind_rows(gold,gold_proyecciones)
+
+#Grafico de las proyecciones de Foward y spot 
+#Gold
+gold_completo$Date <- as.Date(paste0(gold_completo$Date, "-01"), format = "%Y-%m-%d")
+gold_completo$Periodo <- ifelse(gold_completo$Date > as.Date("2023-10-01"), "Proyeccion", "Datos")
+
+
+ggplot(data = gold_completo) + 
+  geom_line(aes(x = Date, y = Spot, group = 1, color = Periodo)) +
+  scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
+  labs(x = "Fecha", y = "Valor del Spot", title = "Proyeccion de los Precios Spot a dos años", 
+       caption = "Fuente: Elaboracion propia con datos de ")
+
+
+ggplot(data = gold_completo) + 
+  geom_line(aes(x = Date, y = Future, group = 1, color = Periodo)) +
+  #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
+  scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
+  labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos años", 
+       caption = "Fuente: Elaboracion propia con datos de ")
+
+
