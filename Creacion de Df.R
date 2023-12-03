@@ -413,3 +413,15 @@ ggplot(data = silver_completo) +
   geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
   scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
 
+##---------------------------------------##
+#Cálculo con fórmula
+risk_free$date <- as.Date(risk_free$date)
+r <- as.numeric(risk_free[length(risk_free$`risk free`),2])
+t <- 1:meses_proyectar/12
+Gold_S_0 <- gold$Spot[length(gold$Spot)]
+Silver_S_0 <- silver$Spot[length(silver$Spot)]
+Platinum_S_0 <- as.numeric(platinum$Spot[length(platinum$Spot)])
+
+FuturosGold <- Gold_S_0*exp(r*t)
+FuturosSilver <- Silver_S_0*exp(r*t)
+FuturosPlatinum <- Platinum_S_0*exp(r*t)
