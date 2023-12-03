@@ -22,6 +22,7 @@ Copper_Spot <- read_excel("commodities-workbook.xlsx", sheet="Copper",
                         range = "A11:B537")
 Platinum_Spot <- read_excel("precios spot platino.xlsx", range = "A1:H181")
 Palladium_Spot <- read_excel("precios spot paladio.xlsx", range = "A1:B47")
+palladium_Future <- read_excel("precios futuros paladio.xlsx", range = "A1:B49")
 risk_free <- read_excel("tasa libre de riesgo.xlsx")
 
 
@@ -32,12 +33,14 @@ specific_date_end <- as.Date("2023-10-31")
 Platinum_Spot <- Platinum_Spot[, !(colSums(is.na(Platinum_Spot)) > 0)]
 Platinum_Spot <- Platinum_Spot[c('Date', 'Close (troy oz)')] %>% rename('Spot' = 'Close (troy oz)') 
 Platinum_Spot$Date <- as.Date(Platinum_Spot$Date)
+Palladium_Spot$Date <- as.Date(Palladium_Spot$Date)
 Palladium_Spot <- na.omit(Palladium_Spot[Palladium_Spot$Date >= specific_date & Palladium_Spot$Date <= specific_date_end,] %>% rename('Spot' = 'Close (troy oz)'))
 #Se filtran los datos de los futuros
 new_data <- Precios_Futuros[c('commodity', 'date', 'close')]
 new_data$date <- as.Date(new_data$date)
 new_data <- new_data[new_data$date >= specific_date & new_data$date <= specific_date_end ,]
 new_data <- na.omit(new_data %>% rename('Date' = 'date','Future' = 'close'))
+palladium_Future$Fecha <- as.Date(palladium_Future$Fecha, format = "%d.%m.%Y")
 #Se pasa el tipo de fecha de POSIXct a Date
 Gold_Spot$Date <- as.Date(Gold_Spot$Date)
 Silver_Spot$Date <- as.Date(Silver_Spot$Date)
@@ -51,7 +54,7 @@ gold_Future <- new_data[new_data$commodity == "Gold", ]
 silver_Future <- new_data[new_data$commodity == "Silver", ]
 copper_Future <- new_data[new_data$commodity == "Copper", ]
 platinum_Future <- new_data[new_data$commodity == "Platinum", ]
-palladium_Future <- new_data[new_data$commodity == "Palladium", ]
+palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = '�ltimo')
 # Extraer el aÃÂ±o y mes de la fecha
 gold_Future_my <- gold_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
@@ -62,7 +65,7 @@ copper_Future_my <- copper_Future %>%
 platinum_Future_my <- platinum_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
 palladium_Future_my <- palladium_Future %>%
-  mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
+  mutate(year_month = format(Date, "%Y-%m"))
 Gold_Spot_my <- Gold_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
 Silver_Spot_my <- Silver_Spot %>%
@@ -71,7 +74,7 @@ Copper_Spot_my <- Copper_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
 Platinum_Spot_my <- Platinum_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
-Palladium_Spot_my <- Platinum_Spot %>%
+Palladium_Spot_my <- Palladium_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
 # Filtrar la primera apariciÃÂ³n de cada mes
 gold_Future_per_month <- gold_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
@@ -103,7 +106,7 @@ gold$Date <- as.Date(paste0(gold$Date, "-01"))
 silver$Date <- as.Date(paste0(silver$Date, "-01"))
 copper$Date <- as.Date(paste0(copper$Date, "-01"))
 platinum$Date <- as.Date(paste0(platinum$Date, "-01"))
-palladium$Date <- as.Date(paste0(platinum$Date, "-01"))
+palladium$Date <- as.Date(paste0(palladium$Date, "-01"))
 # Crear el grÃ¡fico de lÃ­neas con ggplot
 
 #GrÃ¡fico 1 del oro
@@ -296,7 +299,7 @@ ggplot(palladium, aes(x = Date)) +
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "lightgrey")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
-  scale_y_continuous(breaks = seq(0, max(palladium$Future), by = 100)) +
+  scale_y_continuous(breaks = seq(0, max(palladium$Future), by = 200)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
