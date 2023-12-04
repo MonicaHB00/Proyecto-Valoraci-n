@@ -9,7 +9,7 @@ getwd()
 # Para encontrar donde esta guardado este archivo
 script_directory <- dirname(rstudioapi::getSourceEditorContext()$path)
 script_directory
-# Se toma esta direcciÃƒÂƒÃ‚Â³n como el nuevo working directory
+# Se toma esta direcci�n como el nuevo working directory
 setwd(script_directory)
 
 #Se exportan los datos
@@ -54,8 +54,8 @@ gold_Future <- new_data[new_data$commodity == "Gold", ]
 silver_Future <- new_data[new_data$commodity == "Silver", ]
 copper_Future <- new_data[new_data$commodity == "Copper", ]
 platinum_Future <- new_data[new_data$commodity == "Platinum", ]
-palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Último')
-# Extraer el aÃƒÂƒÃ‚Â±o y mes de la fecha
+palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = '�ltimo')
+# Extraer el a�o y mes de la fecha
 gold_Future_my <- gold_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
 silver_Future_my <- silver_Future %>%
@@ -76,7 +76,7 @@ Platinum_Spot_my <- Platinum_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
 Palladium_Spot_my <- Palladium_Spot %>%
   mutate(year_month = format(Date, "%Y-%m"))
-# Filtrar la primera apariciÃƒÂƒÃ‚Â³n de cada mes
+# Filtrar la primera aparici�n de cada mes
 gold_Future_per_month <- gold_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
 silver_Future_per_month <- silver_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
 copper_Future_per_month <- copper_Future_my %>% group_by(year_month) %>% slice_min(Date) %>% select(-Date) %>% rename('Date' = 'year_month')
@@ -107,9 +107,9 @@ silver$Date <- as.Date(paste0(silver$Date, "-01"))
 copper$Date <- as.Date(paste0(copper$Date, "-01"))
 platinum$Date <- as.Date(paste0(platinum$Date, "-01"))
 palladium$Date <- as.Date(paste0(palladium$Date, "-01"))
-# Crear el grÃƒÂ¡fico de lÃƒÂ­neas con ggplot
+# Crear el gr�fico de l�neas con ggplot
 
-#GrÃƒÂ¡fico Oro
+#Gr�fico Oro
 ggplot(gold, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
@@ -125,13 +125,13 @@ ggplot(gold, aes(x = Date)) +
         legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
         legend.title = element_text(color = "black", size = 14),
         axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"), # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"), # Ajustes del t�tulo
         axis.title = element_text(size = 16))+  
   guides(color = guide_legend(title = NULL))
 
-#GrÃƒÂ¡fico Plata
+#Gr�fico Plata
 ggplot(silver, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
@@ -147,14 +147,14 @@ ggplot(silver, aes(x = Date)) +
         legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
         legend.title = element_text(color = "black", size = 14),
         axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
-        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        axis.title = element_text(size = 16))+  # Ajustes del t�tulo
   guides(color = guide_legend(title = NULL))
 
 
-#GrÃƒÂ¡fico Cobre
+#Gr�fico Cobre
 ggplot(copper, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
@@ -169,13 +169,13 @@ ggplot(copper, aes(x = Date)) +
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
         legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
         axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del t�tulo
   guides(color = guide_legend(title = NULL))
 
 
-#GrÃƒÂ¡fico Platino
+#Gr�fico Platino
 ggplot(platinum, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
@@ -191,13 +191,13 @@ ggplot(platinum, aes(x = Date)) +
         legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
         legend.title = element_text(color = "black", size = 14),
         axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
-        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        axis.title = element_text(size = 16))+  # Ajustes del t�tulo
   guides(color = guide_legend(title = NULL))
 
-#GrÃƒÂ¡fico Paladio
+#Gr�fico Paladio
 ggplot(palladium, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
@@ -213,10 +213,10 @@ ggplot(palladium, aes(x = Date)) +
         legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
         legend.title = element_text(color = "black", size = 14),
         axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
-        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        axis.title = element_text(size = 16))+  # Ajustes del t�tulo
   guides(color = guide_legend(title = NULL))
 
 ######
@@ -270,7 +270,7 @@ gold_completo$Periodo <- ifelse(gold_completo$Date > as.Date("2023-10-01"), "Pro
 ggplot(data = gold_completo) + 
   geom_line(aes(x = Date, y = Spot, group = 1, color = Periodo)) +
   scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
-  labs(x = "Fecha", y = "Valor del Spot", title = "Proyeccion de los Precios Spot a dos aÃƒÂ±os", 
+  labs(x = "Fecha", y = "Valor del Spot", title = "Proyeccion de los Precios Spot a dos a�os", 
        caption = "Fuente: Elaboracion propia con datos de ")
 
 
@@ -278,7 +278,7 @@ ggplot(data = gold_completo) +
   geom_line(aes(x = Date, y = Future, group = 1, color = Periodo)) +
   #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
   scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
-  labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos aÃƒÂ±os", 
+  labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos a�os", 
        caption = "Fuente: Elaboracion propia con datos de ")
 
 
@@ -305,18 +305,18 @@ copper_proyecciones<-data_frame(Date=as.Date(fechas_formato),
 copper_completo<-bind_rows(copper,copper_proyecciones)
 
 copper_completo$Date <- as.Date(paste0(copper_completo$Date, "-01"), format = "%Y-%m-%d")
-copper_completo$periodoF <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuÃƒÂ©sF", "AntesF")
-copper_completo$periodoS <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "DespuÃƒÂ©sS", "AntesS")
+copper_completo$periodoF <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "Despu�sF", "AntesF")
+copper_completo$periodoS <- ifelse(copper_completo$Date > as.Date("2023-10-01"), "Despu�sS", "AntesS")
 #Grafico del futuro 
 ggplot(data = copper_completo) + 
   geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuÃƒÂ©sF" = "blue", "AntesS" = "red", "DespuÃƒÂ©sS" = "purple"))
+  scale_color_manual(values = c("AntesF" = "black", "Despu�sF" = "blue", "AntesS" = "red", "Despu�sS" = "purple"))
 
 ggplot(data = copper_completo) + 
   #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuÃƒÂ©sF" = "blue", "AntesS" = "red", "DespuÃƒÂ©sS" = "purple"))
+  scale_color_manual(values = c("AntesF" = "black", "Despu�sF" = "blue", "AntesS" = "red", "Despu�sS" = "purple"))
 
 
 ###########################SILVER
@@ -348,22 +348,22 @@ silver_completo<-bind_rows(silver,silver_proyecciones)
 
 ###GRafico de Silver
 silver_completo$Date <- as.Date(paste0(silver_completo$Date, "-01"), format = "%Y-%m-%d")
-silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuÃƒÂ©sF", "AntesF")
-silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuÃƒÂ©sS", "AntesS")
+silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "Despu�sF", "AntesF")
+silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "Despu�sF", "AntesS")
 #grafico de futuro
 ggplot(data = silver_completo) + 
   geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuÃƒÂ©sF" = "blue", "AntesS" = "red", "DespuÃƒÂ©sS" = "purple"))
+  scale_color_manual(values = c("AntesF" = "black", "Despu�sF" = "blue", "AntesS" = "red", "Despu�sS" = "purple"))
 
 #Grafico del Spot
 ggplot(data = silver_completo) + 
   #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuÃƒÂ©sF" = "blue", "AntesS" = "red", "DespuÃƒÂ©sS" = "purple"))
+  scale_color_manual(values = c("AntesF" = "black", "Despu�sF" = "blue", "AntesS" = "red", "Despu�sS" = "purple"))
 
 ##---------------------------------------##
-#CÃƒÂ¡lculo con fÃƒÂ³rmula
+#C�lculo con f�rmula
 risk_free$date <- as.Date(risk_free$date)
 r <- as.numeric(risk_free[length(risk_free$`risk free`),2])
 t <- 1:meses_proyectar/12
@@ -390,7 +390,7 @@ gold_proy_form <- cbind(gold_proy[,1:2], Estimated_Future = FuturosGold)
 ultimos <- length(gold_proy_form$Estimated_Future)
 
 
-#GrÃƒÂ¡fico oro proyectado y 
+#Gr�fico oro proyectado y 
 ggplot(gold_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Datos hist�ricos"), linewidth = 1) +
@@ -406,9 +406,9 @@ ggplot(gold_proy_form, aes(x = Date)) +
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
         legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
         axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
-        axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂ­neas de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l�neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂ­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del t�tulo
   guides(color = guide_legend(title = NULL))
 
 
