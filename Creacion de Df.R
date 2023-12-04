@@ -242,8 +242,8 @@ ms_gold_spot <- Arima(ST_gold_spot, order = c(1, 1, 1),
                       seasonal = list(order = c(1, 1, 1), period = 12))
 
 #Proyyeciones
-proyecciones_futuro_gold<- forecast(ms_gold_futuro, h = meses_proyectar)
-proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
+proyecciones_futuro_gold<- forecast(ms_gold_futuro, h = meses_proyectar+2)
+proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar+2)
 
 
 #print(proyecciones_futuro_gold)
