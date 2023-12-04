@@ -40,7 +40,7 @@ adf_test <- adf.test(ST_copper_spot)
 print(adf_test)
 # Define the range for p, d, q
 p <- 0:10
-d <- 0
+d <- 0:10
 q <- 0:10
 
 # Create a data frame with all combinations of p, d, q
@@ -148,9 +148,8 @@ results <- apply(pdq, 1, function(x) {
 ```{r}
 ##Creo que ideal 10,0,9
 ST_silver_futuro <- ts(silver$Future, frequency = 12)
-ST_silver_futuro <-as.numeric(ST_silver_futuro)
 #Ideal 10,0,9
-ST_silver_spot<-as.numeric(silver$Spot,frecuency=12)
+ST_silver_spot<-ts(silver$Spot,frequency=12)
 
 ms_silver_futuro<-arima(ST_silver_futuro,order=c(10,0,9))
 ms_silver_spot <- arima(ST_silver_spot,order=c(10,0,9))
@@ -167,7 +166,7 @@ plot(proyecciones_spot_silver)
 #print(silver$Date)
 #print(fechas_formato)
 
-silver_proyecciones<-data_frame(Date=as.Date(fechas_formato),
+silver_proyecciones<-data_frame(Date=fechas_formato,
                               Future=proyecciones_futuro_silver$mean,
                               Spot=proyecciones_spot_silver$mean )
 silver_completo<-bind_rows(silver,silver_proyecciones)
@@ -184,5 +183,66 @@ ggplot(data = silver_completo) +
   scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
 
 ```
+```{r}
+  goldP<-head(gold,155-12)
+  ST_goldP_futuro <- ts(goldP$Future, frequency = 12)
+  ST_goldP_spot<-ts(goldP$Spot,frequency=12)
+```
+
+```{r}
+  adf_test <- adf.test(ST_goldP_futuro)
+  print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results1 <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_spot, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+#  
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_futuro, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})#5,1,2
+```
+
+```{r}
+ms_goldP_futuro<-arima(ST_goldP_futuro,order=c(2,0,0))
+ms_goldP_spot <- arima(ST_goldP_spot,order=c(0,0,2))
+
+
+proyecciones_futuro_goldP<- forecast(ms_goldP_futuro, h = 12)
+proyecciones_spot_goldP<- forecast(ms_goldP_spot, h = 12)
+
+
+plot(proyecciones_futuro_goldP)
+plot(proyecciones_spot_goldP)
+
+
+#print(silver$Date)
+#print(fechas_formato)
+fechas <- seq(from = ym("2022-11"), by = "months", length.out = 12)
+fechas_formatoP <- as.Date(format(fechas, "%Y-%m-%d"))
+
+goldP_proyecciones<-data_frame(Date=as.Date(fechas_formatoP),
+                              Future=proyecciones_futuro_goldP$mean,
+                              Spot=proyecciones_spot_goldP$mean )
+goldP_completoP<-bind_rows(goldP,goldP_proyecciones)
+```
+
      
      

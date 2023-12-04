@@ -385,3 +385,58 @@ ggplot(gold, aes(x = Date)) +
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂ­neas de los ejes a blanco
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂ­tulo
   guides(color = guide_legend(title = NULL))
+
+
+
+goldP<-head(gold,155-12)
+ST_goldP_futuro <- ts(goldP$Future, frequency = 12)
+ST_goldP_spot<-ts(goldP$Spot,frequency=12)
+
+adf_test <- adf.test(ST_goldP_futuro)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results1 <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_spot, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+#  
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_futuro, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})#5,1,2
+
+ms_goldP_futuro<-arima(ST_goldP_futuro,order=c(2,0,0))
+ms_goldP_spot <- arima(ST_goldP_spot,order=c(0,0,2))
+
+
+proyecciones_futuro_goldP<- forecast(ms_goldP_futuro, h = 12)
+proyecciones_spot_goldP<- forecast(ms_goldP_spot, h = 12)
+
+
+plot(proyecciones_futuro_goldP)
+plot(proyecciones_spot_goldP)
+
+
+fechas <- seq(from = ym("2022-11"), by = "months", length.out = 12)
+fechas_formatoP <- as.Date(format(fechas, "%Y-%m-%d"))
+
+goldP_proyecciones<-data_frame(Date=as.Date(fechas_formatoP),
+                               Future=proyecciones_futuro_goldP$mean,
+                               Spot=proyecciones_spot_goldP$mean )
+goldP_completoP<-bind_rows(goldP,goldP_proyecciones)
