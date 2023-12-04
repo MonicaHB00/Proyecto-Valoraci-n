@@ -275,7 +275,7 @@ fechas_formatog22 <- as.Date(format(fechas_g22, "%Y-%m-%d"))
 gold_proyecciones22<-data_frame(Date=fechas_formatog22,
                               Future=proyecciones_futuro_gold22$mean,
                               Spot=proyecciones_spot_gold22$mean )
-gold22_completo<-bind_rows(gold_22,gold_proyecciones2)
+gold22_completo<-bind_rows(gold_22,gold_proyecciones22)
 
 
 #creacion del nuevo df
@@ -294,7 +294,7 @@ gold1_completo23<-bind_rows(gold_1,gold_proyecciones23)
 #gold_completo$Periodo <- ifelse(gold_completo$Date > as.Date("2022-08-01"), "Proyeccion", "Datos")
 
 
-<<<<<<< HEAD
+
 ggplot(data = gold_completo) + 
   geom_line(aes(x = Date, y = Spot, group = 1, color = Periodo)) +
   scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
@@ -308,7 +308,7 @@ ggplot(data = gold_completo) +
   scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
   labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos años", 
        caption = "Fuente: Elaboracion propia con datos de ")
-=======
+
 #ggplot(data = gold_completo) + 
 #  geom_line(aes(x = Date, y = Spot, group = 1, color = Periodo)) +
 #  scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
@@ -322,7 +322,7 @@ ggplot(data = gold_completo) +
 #  scale_color_manual(values = c("Datos" = "black", "Proyeccion" = "blue")) +
 #  labs(x = "Fecha", y = "Valor del Foward", title = "Proyeccion de los Precios Foward a dos a?os", 
 #       caption = "Fuente: Elaboracion propia con datos de ")
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+
 
 
 ##########################Copper
@@ -354,21 +354,14 @@ copper_completo$periodoS <- ifelse(copper_completo$Date > as.Date("2023-10-01"),
 #ggplot(data = copper_completo) + 
 #  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-<<<<<<< HEAD
-  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
-=======
-#  scale_color_manual(values = c("AntesF" = "black", "Despu?sF" = "blue", "AntesS" = "red", "Despu?sS" = "purple"))
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+  #scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
 
 #ggplot(data = copper_completo) + 
   #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
-<<<<<<< HEAD
-  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
-=======
 #  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-#  scale_color_manual(values = c("AntesF" = "black", "Despu?sF" = "blue", "AntesS" = "red", "Despu?sS" = "purple"))
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+#  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
+
 
 
 ###########################SILVER
@@ -423,40 +416,27 @@ silver_proyecciones23<-data_frame(Date=fechas_formatog,
                                  Spot=proyecciones_spot_silver23$mean )
 silver23_completo<-bind_rows(silver_23,silver_proyecciones23)
 ###GRafico de Silver
-<<<<<<< HEAD
-silver_completo$Date <- as.Date(paste0(silver_completo$Date, "-01"), format = "%Y-%m-%d")
-silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
-silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesS")
-=======
+
 #silver_completo$Date <- as.Date(paste0(silver_completo$Date, "-01"), format = "%Y-%m-%d")
-#silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "Despu?sF", "AntesF")
-#silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "Despu?sF", "AntesS")
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+#silver_completo$periodoF <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesF")
+#silver_completo$periodoS <- ifelse(silver_completo$Date > as.Date("2023-10-01"), "DespuésF", "AntesS")
+
 #grafico de futuro
 #ggplot(data = silver_completo) + 
 #  geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
   #geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-<<<<<<< HEAD
-  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
-=======
-#  scale_color_manual(values = c("AntesF" = "black", "Despu?sF" = "blue", "AntesS" = "red", "Despu?sS" = "purple"))
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+#  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
 
 #Grafico del Spot
 #ggplot(data = silver_completo) + 
   #geom_line(aes(x = Date, y = Future, group = 1, color = periodoF)) +
-<<<<<<< HEAD
-  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
-=======
 ##  geom_line(aes(x = Date, y = Spot, group = 1, color = periodoS)) +
-#  scale_color_manual(values = c("AntesF" = "black", "Despu?sF" = "blue", "AntesS" = "red", "Despu?sS" = "purple"))
->>>>>>> 9a56a83d0e724b42cd7ea9e4b5a53c73ca2894d4
+#  scale_color_manual(values = c("AntesF" = "black", "DespuésF" = "blue", "AntesS" = "red", "DespuésS" = "purple"))
 
 ##---------------------------------------##
 #C?lculo con fórmula
 risk_free$date <- as.Date(risk_free$date)
-fecha_deseada <- as.Date("2023-09-01")
+fecha_deseada <- as.Date("2022-09-01")
 r <- as.numeric(risk_free%>% filter(Date == fecha_deseada) %>% select(`risk free`))
 t <- (1:meses_proyectar)/12
 
@@ -473,8 +453,8 @@ FuturosPlatinum <- Platinum_S_0*exp(r*t)
 fechas_futuras <- seq.Date(from = as.Date(fecha_deseada), by = "1 month", length.out = 24)
 gold_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosGold)
 
-gold_proy <- gold_completo[,1:3] 
-gold_proy2 <-gold_completo[gold_completo$Periodo == "Proyeccion", ]
+gold_proy <- gold22_completo[,1:3] 
+gold_proy2 <-gold22_completo[gold22_completo$Periodo == "Proyeccion", ]
 proy <- gold_proy2[1:2]
 colnames(proy)[colnames(proy) == "Future"] <- "Proyectado"
 gold_proy_form <- merge(gold_proy, gold_form, by = "Date", all = TRUE)
@@ -485,7 +465,7 @@ ggplot(gold_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Datos históricos"), linewidth = 1) +
   geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
-  geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
+  #geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   labs(title = "Precio de futuros del Oro estimado con fórmula y proyectado mediante Arima",
        x = "Fecha",
        y = "Precio") +
