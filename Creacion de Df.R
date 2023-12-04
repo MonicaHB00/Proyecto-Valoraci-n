@@ -54,7 +54,7 @@ gold_Future <- new_data[new_data$commodity == "Gold", ]
 silver_Future <- new_data[new_data$commodity == "Silver", ]
 copper_Future <- new_data[new_data$commodity == "Copper", ]
 platinum_Future <- new_data[new_data$commodity == "Platinum", ]
-palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Último')
+palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = '?ltimo')
 # Extraer el a?o y mes de la fecha
 gold_Future_my <- gold_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
@@ -391,6 +391,16 @@ silver_completo23<-bind_rows(silver_23,silver_proyecciones23)
 silver_completo23$Date <- as.Date(paste0(silver_completo23$Date, "-01"), format = "%Y-%m-%d")
 silver_completo23$Periodo <- ifelse(silver_completo23$Date > as.Date("2023-11-01"), "Proyeccion", "Datos")
 
+plot(proyecciones_futuro_silver22)
+library(forecast)
+
+# Plot ACF
+acf(proyecciones_futuro_silver22, lag.max=20, main="Autocorrelation Function (ACF)")
+
+# Plot PACF
+pacf(proyecciones_futuro_silver22, lag.max=20, main="Partial Autocorrelation Function (PACF)")
+
+
 ###PAra el 2022-
 
 silver_22<-head(silver,155-10)
@@ -477,13 +487,13 @@ gold_proy_form <- merge(gold_proy_form,datos_gold , by = "Date", all = TRUE)
 #Gr?fico oro proyectado y 
 ggplot(gold_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
-  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos hist?ricos"), linewidth = 1) +
   geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
-  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  geom_line(aes(y = Future.y, color = "Datos hist?ricos 2"), linewidth = 1) +
   labs(#title = "Precio de futuros del Oro estimado con fÃ³rmula y proyectado mediante Arima",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "goldenrod")) +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos hist?ricos 2" = "blue","Datos hist?ricos" = "goldenrod")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
@@ -516,13 +526,13 @@ silver_proy_form <- merge(silver_proy_form,datos_silver , by = "Date", all = TRU
 #Gr?fico oro proyectado y 
 ggplot(silver_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
-  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos hist?ricos"), linewidth = 1) +
   geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
-  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  geom_line(aes(y = Future.y, color = "Datos hist?ricos 2"), linewidth = 1) +
   labs(#title = "Precio de futuros del Oro estimado con fÃ³rmula y proyectado mediante Arima",
     x = "Fecha",
     y = "Precio") +
-  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "#8B8989")) +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos hist?ricos 2" = "blue","Datos hist?ricos" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(silver$Future), by = 5)) +
   theme(panel.background = element_rect(fill = "white"),
@@ -554,13 +564,13 @@ platinum_proy_form <- merge(platinum_proy_form,datos_platinum , by = "Date", all
 
 ggplot(platinum_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
-  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos hist?ricos"), linewidth = 1) +
   geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
-  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  geom_line(aes(y = Future.y, color = "Datos hist?ricos 2"), linewidth = 1) +
   labs(#title = "Precio de futuros del Oro estimado con fÃ³rmula y proyectado mediante Arima",
     x = "Fecha",
     y = "Precio") +
-  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "#8B8989")) +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos hist?ricos 2" = "blue","Datos hist?ricos" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(platinum$Future), by = 20)) +
   theme(panel.background = element_rect(fill = "white"),

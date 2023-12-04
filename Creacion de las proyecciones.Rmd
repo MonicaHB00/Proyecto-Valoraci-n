@@ -163,8 +163,6 @@ plot(proyecciones_futuro_silver)
 plot(proyecciones_spot_silver)
 
 
-#print(silver$Date)
-#print(fechas_formato)
 
 silver_proyecciones<-data_frame(Date=fechas_formato,
                               Future=proyecciones_futuro_silver$mean,
