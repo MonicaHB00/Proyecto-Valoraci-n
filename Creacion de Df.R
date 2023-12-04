@@ -113,7 +113,7 @@ palladium$Date <- as.Date(paste0(palladium$Date, "-01"))
 ggplot(gold, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del oro",
+  labs(#title = "Precio de Futuros y Spot del oro",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "goldenrod3")) +
@@ -122,31 +122,35 @@ ggplot(gold, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"), # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        axis.title = element_text(size = 16))+  
   guides(color = guide_legend(title = NULL))
 
 #GrÃƒÂ¡fico Plata
 ggplot(silver, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot de la plata",
+  labs(#title = "Precio de Futuros y Spot de la plata",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(silver$Future), by = 5)) +
-  theme(panel.background = element_rect(fill = "white"),
+   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 
@@ -175,7 +179,7 @@ ggplot(copper, aes(x = Date)) +
 ggplot(platinum, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del platino",
+  labs(#title = "Precio de Futuros y Spot del platino",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "lightgrey")) +
@@ -184,18 +188,20 @@ ggplot(platinum, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 #GrÃƒÂ¡fico Paladio
 ggplot(palladium, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del paladio",
+  labs(#title = "Precio de Futuros y Spot del paladio",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "azure3")) +
@@ -204,11 +210,13 @@ ggplot(palladium, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 ######
