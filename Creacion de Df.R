@@ -54,7 +54,11 @@ gold_Future <- new_data[new_data$commodity == "Gold", ]
 silver_Future <- new_data[new_data$commodity == "Silver", ]
 copper_Future <- new_data[new_data$commodity == "Copper", ]
 platinum_Future <- new_data[new_data$commodity == "Platinum", ]
+<<<<<<< HEAD
 palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Último')
+=======
+palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Ãšltimo')
+>>>>>>> f938c90a392ce9604f8f76f439f847738654f103
 # Extraer el a?o y mes de la fecha
 gold_Future_my <- gold_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
@@ -270,14 +274,14 @@ ms_gold22_spot <- Arima(ST_gold22_spot, order = c(1, 1, 1),
 proyecciones_futuro_gold22<- forecast(ms_gold22_futuro, h = meses_proyectar)
 proyecciones_spot_gold22<- forecast(ms_gold22_spot, h = 24)
 
-fechas_g22<-seq(from = ym("2022-08"), by = "months", length.out = 24)
+fechas_g22<-seq(from = ym("2022-11"), by = "months", length.out = 24)
 fechas_formatog22 <- as.Date(format(fechas_g22, "%Y-%m-%d"))     
 gold_proyecciones22<-data_frame(Date=fechas_formatog22,
                               Future=proyecciones_futuro_gold22$mean,
                               Spot=proyecciones_spot_gold22$mean )
 gold_completo22<-bind_rows(gold_22,gold_proyecciones22)
 gold_completo22$Date <- as.Date(paste0(gold_completo22$Date, "-01"), format = "%Y-%m-%d")
-gold_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-08-01"), "Proyeccion", "Datos")
+gold_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-11-01"), "Proyeccion", "Datos")
 
 
 #creacion del nuevo df
@@ -389,7 +393,7 @@ silver_proyecciones23<-data_frame(Date=fechas_formatog,
                                   Spot=proyecciones_spot_silver23$mean )
 silver_completo23<-bind_rows(silver_23,silver_proyecciones23)
 silver_completo23$Date <- as.Date(paste0(silver_completo23$Date, "-01"), format = "%Y-%m-%d")
-silver_completo23$Periodo <- ifelse(silver_completo23$Date > as.Date("2023-08-01"), "Proyeccion", "Datos")
+silver_completo23$Periodo <- ifelse(silver_completo23$Date > as.Date("2023-11-01"), "Proyeccion", "Datos")
 
 ###PAra el 2022-
 
@@ -409,7 +413,7 @@ ms_silver22_spot <- arima(ST_silver22_spot, order = c(1, 1, 1))
 proyecciones_futuro_silver22<- forecast(ms_silver22_futuro, h = 24)
 proyecciones_spot_silver22<- forecast(ms_silver22_spot, h = 24)
 
-fechas_g22<-seq(from = ym("2022-08"), by = "months", length.out = 24)
+fechas_g22<-seq(from = ym("2022-10"), by = "months", length.out = 24)
  fechas_formatog22 <- as.Date(format(fechas_g22, "%Y-%m-%d"))     
 silver_proyecciones22<-data_frame(Date=fechas_formatog22,
                                   Future=proyecciones_futuro_silver22$mean,
