@@ -113,7 +113,7 @@ palladium$Date <- as.Date(paste0(palladium$Date, "-01"))
 ggplot(gold, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del oro",
+  labs(#title = "Precio de Futuros y Spot del oro",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "goldenrod3")) +
@@ -122,31 +122,35 @@ ggplot(gold, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"), # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        axis.title = element_text(size = 16))+  
   guides(color = guide_legend(title = NULL))
 
 #GrÃƒÂ¡fico Plata
 ggplot(silver, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot de la plata",
+  labs(#title = "Precio de Futuros y Spot de la plata",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "#8B8989")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(silver$Future), by = 5)) +
-  theme(panel.background = element_rect(fill = "white"),
+   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 
@@ -175,7 +179,7 @@ ggplot(copper, aes(x = Date)) +
 ggplot(platinum, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del platino",
+  labs(#title = "Precio de Futuros y Spot del platino",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "lightgrey")) +
@@ -184,18 +188,20 @@ ggplot(platinum, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 #GrÃƒÂ¡fico Paladio
 ggplot(palladium, aes(x = Date)) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
   geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del paladio",
+  labs(#title = "Precio de Futuros y Spot del paladio",
        x = "Fecha",
        y = "Precio") +
   scale_color_manual(values = c("Precio Spot" = "cadetblue2", "Precio Futuro" = "azure3")) +
@@ -204,11 +210,13 @@ ggplot(palladium, aes(x = Date)) +
   theme(panel.background = element_rect(fill = "white"),
         plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
         legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
-        legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
-        axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂƒÃ‚Â­neas de los ejes a blanco
         panel.grid = element_blank(),
-        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del tÃƒÂƒÃ‚Â­tulo
   guides(color = guide_legend(title = NULL))
 
 ######
@@ -219,12 +227,13 @@ library(lubridate)
 
 meses_proyectar<-24
 
+gold_1<-head(gold,155-4)
 #Sereies de Tiempo futuro
-ST_gold_futuro <- ts(gold$Future, frequency = 12)
+ST_gold_futuro <- ts(gold_1$Future, frequency = 12)
 ST_gold_futuro <-as.numeric(ST_gold_futuro)
 
 #series de tiempo spot
-ST_gold_spot<-as.numeric(gold$Spot,frecuency=12)
+ST_gold_spot<-as.numeric(gold_1$Spot,frecuency=12)
 
 #Arimas
 ms_gold_futuro <- Arima(ST_gold_futuro, order = c(1, 1, 1),
@@ -241,13 +250,16 @@ proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
 #print(proyecciones_spot_gold)
 
 #creacion del nuevo df
+
 fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
 fechas_formato <- as.Date(format(fechas, "%Y-%m-%d"))
-                                
-gold_proyecciones<-data_frame(Date=fechas_formato,
+              
+fechas_g<-seq(from = ym("2022-08"), by = "months", length.out = meses_proyectar+4)
+fechas_formatog <- as.Date(format(fechas, "%Y-%m-%d"))     
+gold_proyecciones<-data_frame(Date=fechas_formatog,
                               Future=proyecciones_futuro_gold$mean,
                               Spot=proyecciones_spot_gold$mean )
-gold_completo<-bind_rows(gold,gold_proyecciones)
+gold_completo<-bind_rows(gold_1,gold_proyecciones)
 
 #Grafico de las proyecciones de Foward y spot 
 #Gold
@@ -399,3 +411,60 @@ ggplot(gold_proy_form, aes(x = Date)) +
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂ­tulo
   guides(color = guide_legend(title = NULL))
 
+
+###############################Desde agosto
+
+goldP<-head(gold,155-12)
+ST_goldP_futuro <- ts(goldP$Future, frequency = 12)
+ST_goldP_spot<-ts(goldP$Spot,frequency=12)
+
+adf_test <- adf.test(ST_goldP_futuro)
+print(adf_test)
+# Define the range for p, d, q
+p <- 0:10
+d <- 0
+q <- 0:10
+
+# Create a data frame with all combinations of p, d, q
+pdq <- expand.grid(p = p, d = d, q = q)
+
+# Apply the ARIMA model to each combination
+results1 <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_spot, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})
+#  
+results <- apply(pdq, 1, function(x) {
+  tryCatch({
+    model <- arima(ST_goldP_futuro, order = c(x['p'], x['d'], x['q']))
+    return(c(x, AIC = AIC(model)))
+  }, error = function(e) {
+    return(NULL)
+  })
+})#5,1,2
+
+ms_goldP_futuro<-Arima(ST_goldP_futuro, order = c(1, 1, 1),
+                       seasonal = list(order = c(1, 1, 1), period = 12))
+ms_goldP_spot <- Arima(ST_goldP_futuro, order = c(1, 1, 1),
+                       seasonal = list(order = c(1, 1, 1), period = 12))
+
+
+proyecciones_futuro_goldP<- forecast(ms_goldP_futuro, h = 12)
+proyecciones_spot_goldP<- forecast(ms_goldP_spot, h = 12)
+
+
+plot(proyecciones_futuro_goldP)
+plot(proyecciones_spot_goldP)
+
+
+fechas <- seq(from = ym("2022-11"), by = "months", length.out = 12)
+fechas_formatoP <- as.Date(format(fechas, "%Y-%m-%d"))
+
+goldP_proyecciones<-data_frame(Date=as.Date(fechas_formatoP),
+                               Future=proyecciones_futuro_goldP$mean,
+                               Spot=proyecciones_spot_goldP$mean )
+goldP_completoP<-bind_rows(goldP,goldP_proyecciones)
