@@ -370,8 +370,8 @@ t <- (1:meses_proyectar)/12
 fecha_deseada <- as.Date("2023-09-01")
 
 # Filtra el dataframe para obtener el Spot para la fecha deseada
-Gold_S_0 <- gold %>% filter(Date == fecha_deseada) %>% select(Spot)
-Silver_S_0 <- silver%>% filter(Date == fecha_deseada) %>% select(Spot)
+Gold_S_0 <- as.numeric(gold %>% filter(Date == fecha_deseada) %>% select(Spot))
+Silver_S_0 <- as.numeric(silver%>% filter(Date == fecha_deseada) %>% select(Spot))
 Platinum_S_0 <- as.numeric(platinum%>% filter(Date == fecha_deseada) %>% select(Spot))
 
 FuturosGold <- Gold_S_0*exp(r*t)
@@ -386,7 +386,7 @@ gold_proy2 <-gold_completo[gold_completo$Periodo == "Proyeccion", ]
 proy <- gold_proy2[1:2]
 colnames(proy)[colnames(proy) == "Future"] <- "Proyectado"
 gold_proy_form <- merge(gold_proy, gold_form, by = "Date", all = TRUE)
-  gold_proy_form <- merge(gold_proy_form, proy, by = "Date", all = TRUE)
+gold_proy_form <- merge(gold_proy_form, proy, by = "Date", all = TRUE)
 
 #Gr?fico oro proyectado y 
 ggplot(gold_proy_form, aes(x = Date)) +
