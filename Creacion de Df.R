@@ -219,12 +219,13 @@ library(lubridate)
 
 meses_proyectar<-24
 
+gold_1<-head(gold,155-4)
 #Sereies de Tiempo futuro
-ST_gold_futuro <- ts(gold$Future, frequency = 12)
+ST_gold_futuro <- ts(gold_1$Future, frequency = 12)
 ST_gold_futuro <-as.numeric(ST_gold_futuro)
 
 #series de tiempo spot
-ST_gold_spot<-as.numeric(gold$Spot,frecuency=12)
+ST_gold_spot<-as.numeric(gold_1$Spot,frecuency=12)
 
 #Arimas
 ms_gold_futuro <- Arima(ST_gold_futuro, order = c(1, 1, 1),
@@ -241,13 +242,16 @@ proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar)
 #print(proyecciones_spot_gold)
 
 #creacion del nuevo df
+
 fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
 fechas_formato <- as.Date(format(fechas, "%Y-%m-%d"))
-                                
-gold_proyecciones<-data_frame(Date=fechas_formato,
+              
+fechas_g<-seq(from = ym("2022-08"), by = "months", length.out = meses_proyectar+4)
+fechas_formatog <- as.Date(format(fechas, "%Y-%m-%d"))     
+gold_proyecciones<-data_frame(Date=fechas_formatog,
                               Future=proyecciones_futuro_gold$mean,
                               Spot=proyecciones_spot_gold$mean )
-gold_completo<-bind_rows(gold,gold_proyecciones)
+gold_completo<-bind_rows(gold_1,gold_proyecciones)
 
 #Grafico de las proyecciones de Foward y spot 
 #Gold
@@ -421,8 +425,10 @@ results <- apply(pdq, 1, function(x) {
   })
 })#5,1,2
 
-ms_goldP_futuro<-arima(ST_goldP_futuro,order=c(2,0,0))
-ms_goldP_spot <- arima(ST_goldP_spot,order=c(0,0,2))
+ms_goldP_futuro<-Arima(ST_goldP_futuro, order = c(1, 1, 1),
+                       seasonal = list(order = c(1, 1, 1), period = 12))
+ms_goldP_spot <- Arima(ST_goldP_futuro, order = c(1, 1, 1),
+                       seasonal = list(order = c(1, 1, 1), period = 12))
 
 
 proyecciones_futuro_goldP<- forecast(ms_goldP_futuro, h = 12)
