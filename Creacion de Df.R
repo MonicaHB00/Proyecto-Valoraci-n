@@ -252,7 +252,7 @@ proyecciones_spot_gold23<- forecast(ms_gold23_spot, h = meses_proyectar+2)
 
 ###PAra el 2022-
 
-gold_22<-head(gold,155-12-2)
+gold_22<-head(gold,155-12)
 #Sereies de Tiempo futuro
 ST_gold22_futuro <- ts(gold_22$Future, frequency = 12)
 ST_gold22_futuro <-as.numeric(ST_gold22_futuro)
@@ -393,7 +393,7 @@ silver_completo23$Periodo <- ifelse(silver_completo23$Date > as.Date("2023-08-01
 
 ###PAra el 2022-
 
-silver_22<-head(silver,155-12-2)
+silver_22<-head(silver,155-12)
 #Sereies de Tiempo futuro
 ST_silver22_futuro <- ts(silver_22$Future, frequency = 12)
 ST_silver22_futuro <-as.numeric(ST_silver22_futuro)
