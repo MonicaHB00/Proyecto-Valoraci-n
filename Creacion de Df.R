@@ -254,7 +254,7 @@ proyecciones_spot_gold<- forecast(ms_gold_spot, h = meses_proyectar+2)
 fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
 fechas_formato <- as.Date(format(fechas, "%Y-%m-%d"))
               
-fechas_g<-seq(from = ym("2022-08"), by = "months", length.out = meses_proyectar+4)
+fechas_g<-seq(from = ym("2022-08"), by = "months", length.out = meses_proyectar+2)
 fechas_formatog <- as.Date(format(fechas, "%Y-%m-%d"))     
 gold_proyecciones<-data_frame(Date=fechas_formatog,
                               Future=proyecciones_futuro_gold$mean,
@@ -264,7 +264,7 @@ gold_completo<-bind_rows(gold_1,gold_proyecciones)
 #Grafico de las proyecciones de Foward y spot 
 #Gold
 gold_completo$Date <- as.Date(paste0(gold_completo$Date, "-01"), format = "%Y-%m-%d")
-gold_completo$Periodo <- ifelse(gold_completo$Date > as.Date("2023-10-01"), "Proyeccion", "Datos")
+gold_completo$Periodo <- ifelse(gold_completo$Date > as.Date("2022-08-01"), "Proyeccion", "Datos")
 
 
 ggplot(data = gold_completo) + 
