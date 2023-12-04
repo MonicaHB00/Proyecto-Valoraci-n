@@ -366,16 +366,19 @@ ggplot(data = silver_completo) +
 #Cálculo con fórmula
 risk_free$date <- as.Date(risk_free$date)
 r <- as.numeric(risk_free[length(risk_free$`risk free`),2])
-t <- 1:meses_proyectar/12
-Gold_S_0 <- gold$Spot[length(gold$Spot)]
-Silver_S_0 <- silver$Spot[length(silver$Spot)]
-Platinum_S_0 <- as.numeric(platinum$Spot[length(platinum$Spot)])
+t <- (1:meses_proyectar)/12
+fecha_deseada <- "2023-01-01"
+
+# Filtra el dataframe para obtener el Spot para la fecha deseada
+Gold_S_0 <- gold %>% filter(Date == as.Date(fecha_deseada)) %>% select(Spot)
+Silver_S_0 <- silver%>% filter(Date == as.Date(fecha_deseada)) %>% select(Spot)
+Platinum_S_0 <- as.numeric(platinum%>% filter(Date == as.Date(fecha_deseada)) %>% select(Spot))
 
 FuturosGold <- Gold_S_0*exp(r*t)
 FuturosSilver <- Silver_S_0*exp(r*t)
 FuturosPlatinum <- Platinum_S_0*exp(r*t)
 
-fechas_futuras <- seq.Date(from = as.Date("2023-11-01"), by = "1 month", length.out = 24)
+fechas_futuras <- seq.Date(from = as.Date("2023-09-01"), by = "1 month", length.out = 24)
 gold_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosGold)
 
 gold_proy <- gold_completo[,1:3] 
