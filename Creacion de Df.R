@@ -363,19 +363,31 @@ FuturosGold <- Gold_S_0*exp(r*t)
 FuturosSilver <- Silver_S_0*exp(r*t)
 FuturosPlatinum <- Platinum_S_0*exp(r*t)
 
-fechas_futuras <- fechas <- seq.Date(from = as.Date("2023-11-01"), by = "1 month", length.out = 24)
+fechas_futuras <- seq.Date(from = as.Date("2023-11-01"), by = "1 month", length.out = 24)
+gold_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosGold)
+
+gold_proy <- gold_completo[,1:3] 
+gold_proy2 <-gold_completo[gold_completo$Periodo == "Proyeccion", ]
+proy <- gold_proy2[1:2]
+colnames(proy)[colnames(proy) == "Future"] <- "Proyectado"
+gold_proy_form <- merge(gold_proy, gold_form, by = "Date", all = TRUE)
+gold_proy_form <- merge(gold_proy_form, proy, by = "Date", all = TRUE)
 
 
-gold_proy_form <- bind_rows(FuturosGold,fechas_futuras)
+gold_proy_form <- cbind(gold_proy[,1:2], Estimated_Future = FuturosGold)
+ultimos <- length(gold_proy_form$Estimated_Future)
+
 
 #GrÃƒÂ¡fico oro proyectado y 
-ggplot(gold, aes(x = Date)) +
+ggplot(gold_proy_form, aes(x = Date)) +
+  geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
+  geom_line(aes(y = Future, color = "Datos hist�ricos"), linewidth = 1) +
+  geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
   geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
-  geom_line(aes(y = Future, color = "Precio Futuro"), linewidth = 1) +
-  labs(title = "Precio de Futuros y Spot del Oro",
+  labs(title = "Precio de futuros del Oro estimado con f�rmula y proyectado mediante Arima",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Spot" = "#7FFFD4", "Precio Futuro" = "goldenrod")) +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Precio Spot" = "blue","Datos hist�ricos" = "goldenrod")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
@@ -383,5 +395,7 @@ ggplot(gold, aes(x = Date)) +
         legend.text = element_text(color = "black"),  # Modifica el color del texto de la leyenda a blanco
         axis.text = element_text(color = "black"),  # Modifica el color de los valores de los ejes a blanco
         axis.line = element_line(color = "black"),  # Modifica el color de las lÃƒÂ­neas de los ejes a blanco
+        panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del tÃƒÂ­tulo
   guides(color = guide_legend(title = NULL))
+
