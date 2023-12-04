@@ -54,11 +54,7 @@ gold_Future <- new_data[new_data$commodity == "Gold", ]
 silver_Future <- new_data[new_data$commodity == "Silver", ]
 copper_Future <- new_data[new_data$commodity == "Copper", ]
 platinum_Future <- new_data[new_data$commodity == "Platinum", ]
-<<<<<<< HEAD
 palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Último')
-=======
-palladium_Future <- palladium_Future %>% rename('Date' = 'Fecha','Future' = 'Ãšltimo')
->>>>>>> f938c90a392ce9604f8f76f439f847738654f103
 # Extraer el a?o y mes de la fecha
 gold_Future_my <- gold_Future %>%
   mutate(year_month = format(Date, "%Y-%m"))%>% select(-commodity)
@@ -466,7 +462,7 @@ FuturosPlatinum <- Platinum_S_0*exp(r*t)
 fechas_futuras <- seq.Date(from = as.Date(fecha_deseada), by = "1 month", length.out = 24)
 gold_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosGold)
 
-datos_gold <- gold %>% filter(Date >= fecha_deseada ) %>% select(Date,Future)
+datos_gold <- gold %>% filter(Date >= as.Date("2017-01-01") ) %>% select(Date,Future)
 
 
 gold_proy <- gold_completo22[,1:2] %>% filter(Date >= as.Date("2017-01-01"))
@@ -505,11 +501,11 @@ ggplot(gold_proy_form, aes(x = Date)) +
 
 silver_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosSilver)
 
-datos_silver <- silver %>% filter(Date >= fecha_deseada & Date <= as.Date("2023-08-01")) %>% select(Date,Future)
+datos_silver <- silver %>% filter(Date >= fecha_deseada) %>% select(Date,Future)
 
 
 silver_proy <- silver_completo22[,1:2] %>% filter(Date >= as.Date("2017-01-01"))
-silver_proy2 <-silver_completo22%>% filter(Date >= fecha_deseada)#[gold_completo22$Periodo == "Proyeccion", ]
+silver_proy2 <-silver_completo22[silver_completo22$Periodo == "Proyeccion", ]%>% select(-Periodo,-Spot) #%>% filter(Date >= fecha_deseada)#
 proy_s <- silver_proy2[1:2]
 colnames(proy_s)[colnames(proy_s) == "Future"] <- "Proyectado"
 silver_proy_form <- merge(silver_proy, silver_form, by = "Date", all = TRUE)
