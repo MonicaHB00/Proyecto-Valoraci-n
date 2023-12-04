@@ -255,7 +255,7 @@ fechas <- seq(from = ym("2023-11"), by = "months", length.out = meses_proyectar)
 fechas_formato <- as.Date(format(fechas, "%Y-%m-%d"))
               
 fechas_g<-seq(from = ym("2022-08"), by = "months", length.out = meses_proyectar+2)
-fechas_formatog <- as.Date(format(fechas, "%Y-%m-%d"))     
+fechas_formatog <- as.Date(format(fechas_g, "%Y-%m-%d"))     
 gold_proyecciones<-data_frame(Date=fechas_formatog,
                               Future=proyecciones_futuro_gold$mean,
                               Spot=proyecciones_spot_gold$mean )
