@@ -441,42 +441,49 @@ silver_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-08-01")
 #  scale_color_manual(values = c("AntesF" = "black", "Despu?sF" = "blue", "AntesS" = "red", "Despu?sS" = "purple"))
 
 ##---------------------------------------##
-#C?lculo con f?rmula
+#C?lculo con fórmula
 risk_free$date <- as.Date(risk_free$date)
-fecha_deseada <- as.Date("2022-09-01")
+fecha_deseada <- as.Date("2022-08-01")
 r <- as.numeric(risk_free%>% filter(Date == fecha_deseada) %>% select(`risk free`))
-t <- (1:meses_proyectar)/12
+t <- (1:13)/12
 
 
 # Filtra el dataframe para obtener el Spot para la fecha deseada
 Gold_S_0 <- as.numeric(gold %>% filter(Date == fecha_deseada) %>% select(Spot))
 Silver_S_0 <- as.numeric(silver%>% filter(Date == fecha_deseada) %>% select(Spot))
-Platinum_S_0 <- as.numeric(platinum%>% filter(Date == fecha_deseada) %>% select(Spot))
+Platinum_S_0 <- as.numeric(platinum%>% filter(Date == as.Date("2022-12-01")) %>% select(Spot))
 
 FuturosGold <- Gold_S_0*exp(r*t)
 FuturosSilver <- Silver_S_0*exp(r*t)
 FuturosPlatinum <- Platinum_S_0*exp(r*t)
 
-fechas_futuras <- seq.Date(from = as.Date(fecha_deseada), by = "1 month", length.out = 24)
+
+
+fechas_futuras <- seq.Date(from = as.Date(fecha_deseada), by = "1 month", length.out = 13)
 gold_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosGold)
 
-gold_proy <- gold22_completo[,1:3] 
-gold_proy2 <-gold22_completo[gold22_completo$Periodo == "Proyeccion", ]
+datos_gold <- gold %>% filter(Date >= fecha_deseada & Date <= as.Date("2023-08-01")) %>% select(Date,Future)
+
+
+gold_proy <- gold_completo22[,1:2] %>% filter(Date >= as.Date("2017-01-01"))
+gold_proy2 <-gold_completo22%>% filter(Date >= fecha_deseada)#[gold_completo22$Periodo == "Proyeccion", ]
 proy <- gold_proy2[1:2]
 colnames(proy)[colnames(proy) == "Future"] <- "Proyectado"
 gold_proy_form <- merge(gold_proy, gold_form, by = "Date", all = TRUE)
 gold_proy_form <- merge(gold_proy_form, proy, by = "Date", all = TRUE)
+gold_proy_form <- merge(gold_proy_form,datos_gold , by = "Date", all = TRUE)
+
 
 #Gr?fico oro proyectado y 
 ggplot(gold_proy_form, aes(x = Date)) +
   geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
-  geom_line(aes(y = Future, color = "Datos hist?ricos"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
   geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
-  #geom_line(aes(y = Spot, color = "Precio Spot"), linewidth = 1) +
-  labs(title = "Precio de futuros del Oro estimado con f?rmula y proyectado mediante Arima",
+  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  labs(#title = "Precio de futuros del Oro estimado con fórmula y proyectado mediante Arima",
        x = "Fecha",
        y = "Precio") +
-  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Precio Spot" = "blue","Datos hist?ricos" = "goldenrod")) +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "goldenrod")) +
   scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
   scale_y_continuous(breaks = seq(0, max(gold$Future), by = 100)) +
   theme(plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
@@ -487,6 +494,89 @@ ggplot(gold_proy_form, aes(x = Date)) +
         panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5, color = "black", face = "bold"))+  # Ajustes del t?tulo
   guides(color = guide_legend(title = NULL))
+
+
+
+######Plata
+
+silver_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosSilver)
+
+datos_silver <- silver %>% filter(Date >= fecha_deseada & Date <= as.Date("2023-08-01")) %>% select(Date,Future)
+
+
+silver_proy <- silver_completo22[,1:2] %>% filter(Date >= as.Date("2017-01-01"))
+silver_proy2 <-silver_completo22%>% filter(Date >= fecha_deseada)#[gold_completo22$Periodo == "Proyeccion", ]
+proy_s <- silver_proy2[1:2]
+colnames(proy_s)[colnames(proy_s) == "Future"] <- "Proyectado"
+silver_proy_form <- merge(silver_proy, silver_form, by = "Date", all = TRUE)
+silver_proy_form <- merge(silver_proy_form, proy_s, by = "Date", all = TRUE)
+silver_proy_form <- merge(silver_proy_form,datos_silver , by = "Date", all = TRUE)
+
+
+#Gr?fico oro proyectado y 
+ggplot(silver_proy_form, aes(x = Date)) +
+  geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
+  geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
+  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  labs(#title = "Precio de futuros del Oro estimado con fórmula y proyectado mediante Arima",
+    x = "Fecha",
+    y = "Precio") +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "#8B8989")) +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
+  scale_y_continuous(breaks = seq(0, max(silver$Future), by = 5)) +
+  theme(panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
+        legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l?neas de los ejes a blanco
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del t?tulo
+  guides(color = guide_legend(title = NULL))
+
+####Platino
+platinum_form <- data.frame(Date = fechas_futuras, Estimated_Future = FuturosPlatinum)
+
+datos_platinum <- platinum %>% filter(Date >= fecha_deseada & Date <= as.Date("2023-08-01")) %>% select(Date,Future)
+
+
+#platinum_proy <- platinum_completo22[,1:2] %>% filter(Date >= as.Date("2017-01-01"))
+#platinum_proy2 <-platinum_completo22%>% filter(Date >= fecha_deseada)#[gold_completo22$Periodo == "Proyeccion", ]
+#proy_pl <- platinum_proy2[1:2]
+#colnames(proy)[colnames(proy_pl) == "Future"] <- "Proyectado"
+#platinum_proy_form <- merge(platinum_proy, platinum_form, by = "Date", all = TRUE)
+#platinum_proy_form <- merge(platinum_proy_form, proy_pl, by = "Date", all = TRUE)
+platinum_proy_form <- merge(platinum_proy_form,datos_platinum , by = "Date", all = TRUE)
+
+
+ggplot(platinum_proy_form, aes(x = Date)) +
+  geom_line(aes(y = Estimated_Future, color = "Precio Estimado"), linewidth = 1) +
+  geom_line(aes(y = Future.x, color = "Datos históricos"), linewidth = 1) +
+  geom_line(aes(y = Proyectado, color = "Precio Proyectado"), linewidth = 1) +
+  geom_line(aes(y = Future.y, color = "Datos históricos 2"), linewidth = 1) +
+  labs(#title = "Precio de futuros del Oro estimado con fórmula y proyectado mediante Arima",
+    x = "Fecha",
+    y = "Precio") +
+  scale_color_manual(values = c("Precio Estimado" = "green", "Precio Proyectado" = "red","Datos históricos 2" = "blue","Datos históricos" = "#8B8989")) +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year")+  
+  scale_y_continuous(breaks = seq(0, max(platinum$Future), by = 20)) +
+  theme(panel.background = element_rect(fill = "white"),
+        plot.background = element_rect(fill = "white"),   # Modifica el fondo del plot
+        legend.background = element_rect(fill = "white"),  # Modifica el fondo de la leyenda
+        legend.text = element_text(color = "black", size = 14),  # Modifica el color del texto de la leyenda a blanco
+        legend.title = element_text(color = "black", size = 14),
+        axis.text = element_text(color = "black", size = 12),  # Modifica el color de los valores de los ejes a blanco
+        axis.line = element_line(color = "black"),  # Modifica el color de las l?neas de los ejes a blanco
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5, color = "black", face = "bold"),
+        axis.title = element_text(size = 16))+  # Ajustes del t?tulo
+  guides(color = guide_legend(title = NULL))
+
+
+####Paladio
 
 
 ###############################Desde agosto
