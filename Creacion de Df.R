@@ -252,7 +252,7 @@ proyecciones_spot_gold23<- forecast(ms_gold23_spot, h = meses_proyectar+2)
 
 ###PAra el 2022-
 
-gold_22<-head(gold,155-12)
+gold_22<-head(gold,155-10)
 #Sereies de Tiempo futuro
 ST_gold22_futuro <- ts(gold_22$Future, frequency = 12)
 ST_gold22_futuro <-as.numeric(ST_gold22_futuro)
@@ -270,14 +270,14 @@ ms_gold22_spot <- Arima(ST_gold22_spot, order = c(1, 1, 1),
 proyecciones_futuro_gold22<- forecast(ms_gold22_futuro, h = meses_proyectar)
 proyecciones_spot_gold22<- forecast(ms_gold22_spot, h = 24)
 
-fechas_g22<-seq(from = ym("2022-11"), by = "months", length.out = 24)
+fechas_g22<-seq(from = ym("2023-01"), by = "months", length.out = 24)
 fechas_formatog22 <- as.Date(format(fechas_g22, "%Y-%m-%d"))     
 gold_proyecciones22<-data_frame(Date=fechas_formatog22,
                               Future=proyecciones_futuro_gold22$mean,
                               Spot=proyecciones_spot_gold22$mean )
 gold_completo22<-bind_rows(gold_22,gold_proyecciones22)
 gold_completo22$Date <- as.Date(paste0(gold_completo22$Date, "-01"), format = "%Y-%m-%d")
-gold_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-11-01"), "Proyeccion", "Datos")
+gold_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-12-01"), "Proyeccion", "Datos")
 
 
 #creacion del nuevo df
@@ -393,7 +393,7 @@ silver_completo23$Periodo <- ifelse(silver_completo23$Date > as.Date("2023-11-01
 
 ###PAra el 2022-
 
-silver_22<-head(silver,155-12)
+silver_22<-head(silver,155-10)
 #Sereies de Tiempo futuro
 ST_silver22_futuro <- ts(silver_22$Future, frequency = 12)
 ST_silver22_futuro <-as.numeric(ST_silver22_futuro)
@@ -409,14 +409,14 @@ ms_silver22_spot <- arima(ST_silver22_spot, order = c(1, 1, 1))
 proyecciones_futuro_silver22<- forecast(ms_silver22_futuro, h = 24)
 proyecciones_spot_silver22<- forecast(ms_silver22_spot, h = 24)
 
-fechas_g22<-seq(from = ym("2022-10"), by = "months", length.out = 24)
+fechas_g22<-seq(from = ym("2023-01"), by = "months", length.out = 24)
  fechas_formatog22 <- as.Date(format(fechas_g22, "%Y-%m-%d"))     
 silver_proyecciones22<-data_frame(Date=fechas_formatog22,
                                   Future=proyecciones_futuro_silver22$mean,
                                   Spot=proyecciones_spot_silver22$mean )
 silver_completo22<-bind_rows(silver_22,silver_proyecciones22)
 silver_completo22$Date <- as.Date(paste0(gold_completo22$Date, "-01"), format = "%Y-%m-%d")
-silver_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-08-01"), "Proyeccion", "Datos")
+silver_completo22$Periodo <- ifelse(gold_completo22$Date > as.Date("2022-12-01"), "Proyeccion", "Datos")
 
 
 #creacion del nuevo df
@@ -635,3 +635,4 @@ goldP_proyecciones<-data_frame(Date=as.Date(fechas_formatoP),
                                Future=proyecciones_futuro_goldP$mean,
                                Spot=proyecciones_spot_goldP$mean )
 goldP_completoP<-bind_rows(goldP,goldP_proyecciones)
+
