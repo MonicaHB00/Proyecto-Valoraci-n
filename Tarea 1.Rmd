@@ -1,0 +1,53 @@
+---
+title: "Tarea 1"
+author: "Mónica Hernández (B83731)","Carlos Ávila (B80830)", "Jimena Chacón ()"
+date: "2024-01-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Se cargan los paquetes necesarios
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(readxl)
+```
+
+### Parte I
+
+```{r}
+
+```
+
+### Parte II
+
+Primeramente vamos a realizar el Histograma
+
+```{r}
+#BaseSalarios$U..Salario
+
+hist(BaseSalarios$U..Salario, 
+     main = "Histograma de los Ultimos Salarios(En miles)",  
+     xlab = "Ultimos Salarios Universales",                   
+     ylab = "Frecuencia",              
+     col = "skyblue",                     
+     border = "black"                
+)
+```
+
+### Parte III
+
+```{r}
+
+```
+
+### Parte IV
+
+```{r}
+
+```
